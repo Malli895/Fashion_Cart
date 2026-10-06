@@ -30,6 +30,11 @@ SECRET_KEY = os.getenv(
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
 
 
 # --------------------------------------------------
@@ -117,16 +122,17 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-
         "NAME": os.getenv("DB_NAME"),
-
         "USER": os.getenv("DB_USER"),
-
         "PASSWORD": os.getenv("DB_PASSWORD"),
-
         "HOST": os.getenv("DB_HOST"),
-
         "PORT": os.getenv("DB_PORT"),
+
+        "OPTIONS": {
+            "ssl": {
+                "ca": str(BASE_DIR / "ca.pem"),
+            },
+        },
     }
 }
 
