@@ -1,0 +1,311 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Payment - Fashion Cart</title>
+    <link rel="stylesheet"
+          href="{% static 'css/common.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'css/payment.css' %}">
+
+</head>
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="top-header">
+
+    <a href="{% url 'home' %}" class="common-logo">
+        Fashion Cart
+    </a>
+
+</header>
+
+
+
+<main class="payment-container">
+
+
+    <!-- ================= PAYMENT PAGE TITLE ================= -->
+
+    <div class="page-title">
+
+        <h1>Payment</h1>
+
+        <p>
+            Choose your preferred payment method
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= DELIVERY ADDRESS ================= -->
+
+    {% if address_obj %}
+
+    <section class="payment-card">
+
+        <div class="section-title">
+
+            <h2>📍 Delivery Address</h2>
+
+        </div>
+
+
+        <div class="delivery-address">
+
+            <h3>
+                {{ address_obj.full_name }}
+            </h3>
+
+            <p>
+                {{ address_obj.address }}
+            </p>
+
+            <p>
+                {{ address_obj.city }},
+                {{ address_obj.state }}
+                - {{ address_obj.pincode }}
+            </p>
+
+            <p class="phone">
+                📞 {{ address_obj.phone }}
+            </p>
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+
+    <!-- ================= ORDER SUMMARY ================= -->
+
+    <section class="payment-card">
+
+        <div class="section-title">
+
+            <h2>🛍️ Order Summary</h2>
+
+        </div>
+
+
+        {% if order %}
+
+        <div class="summary-row">
+
+            <span>Order ID</span>
+
+            <strong>
+                #{{ order.order_id }}
+            </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>Total Amount</span>
+
+            <strong class="total-price">
+                ₹{{ order.total_amount|floatformat:2 }}
+            </strong>
+
+        </div>
+
+        {% else %}
+
+        <div class="summary-row">
+
+            <span>Total Amount</span>
+
+            <strong class="total-price">
+                ₹{{ total_amount|floatformat:2 }}
+            </strong>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+
+    <!-- ================= PAYMENT METHOD ================= -->
+
+    <section class="payment-card payment-method-card">
+
+        <div class="section-title">
+
+            <h2>💳 Payment Method</h2>
+
+            <p>
+                Select one payment method
+            </p>
+
+        </div>
+
+
+        <form method="POST"
+              class="payment-form">
+
+            {% csrf_token %}
+
+
+            <!-- CASH ON DELIVERY -->
+
+            <label class="payment-option">
+
+                <input
+                    type="radio"
+                    name="payment_method"
+                    value="Cash on Delivery"
+                    required
+                >
+
+                <div class="payment-icon">
+                    💵
+                </div>
+
+                <div class="payment-information">
+
+                    <h3>
+                        Cash on Delivery
+                    </h3>
+
+                    <p>
+                        Pay when your order is delivered
+                    </p>
+
+                </div>
+
+            </label>
+
+
+
+            <!-- UPI -->
+
+            <label class="payment-option">
+
+                <input
+                    type="radio"
+                    name="payment_method"
+                    value="UPI"
+                >
+
+                <div class="payment-icon">
+                    📱
+                </div>
+
+                <div class="payment-information">
+
+                    <h3>
+                        UPI
+                    </h3>
+
+                    <p>
+                        Google Pay, PhonePe or other UPI apps
+                    </p>
+
+                </div>
+
+            </label>
+
+
+
+            <!-- CREDIT / DEBIT CARD -->
+
+            <label class="payment-option">
+
+                <input
+                    type="radio"
+                    name="payment_method"
+                    value="Credit/Debit Card"
+                >
+
+                <div class="payment-icon">
+                    💳
+                </div>
+
+                <div class="payment-information">
+
+                    <h3>
+                        Credit / Debit Card
+                    </h3>
+
+                    <p>
+                        Pay securely using your card
+                    </p>
+
+                </div>
+
+            </label>
+
+
+
+            <!-- NET BANKING -->
+
+            <label class="payment-option">
+
+                <input
+                    type="radio"
+                    name="payment_method"
+                    value="Net Banking"
+                >
+
+                <div class="payment-icon">
+                    🏦
+                </div>
+
+                <div class="payment-information">
+
+                    <h3>
+                        Net Banking
+                    </h3>
+
+                    <p>
+                        Pay using your bank account
+                    </p>
+
+                </div>
+
+            </label>
+
+
+
+            <!-- PROCEED BUTTON -->
+
+            <button
+                type="submit"
+                class="payment-button">
+
+                Proceed to Payment
+
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+</main>
+
+
+{% include 'common.html' %}
+
+</body>
+
+</html>

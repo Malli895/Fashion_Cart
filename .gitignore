@@ -1,0 +1,15 @@
+.venv/
+.venv_django/
+__pycache__/
+*.pyc
+
+.env
+
+db.sqlite3
+
+staticfiles/
+
+.idea/
+.vscode/
+
+*.log

@@ -1,0 +1,302 @@
+/* =========================================
+   COMMON RESET
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body {
+    margin: 0;
+    padding: 0;
+
+    padding-bottom: 80px;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background-color: #f5f6f8;
+
+    color: #212121;
+}
+
+
+/* =========================================
+   COMMON HEADER
+========================================= */
+
+.common-header {
+
+    width: 100%;
+
+    height: 60px;
+
+    background-color: #ffffff;
+
+    border-bottom: 1px solid #e2e2e2;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 35px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+}
+
+
+/* =========================================
+   FASHION CART LOGO
+========================================= */
+
+.common-logo {
+
+    color: #2874f0;
+
+    text-decoration: none;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.2px;
+
+    transition: 0.2s;
+}
+
+
+.common-logo:hover {
+
+    color: #1558c0;
+
+}
+
+
+/* =========================================
+   BOTTOM NAVIGATION
+========================================= */
+
+.common-bottom-nav {
+
+    position: fixed;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 65px;
+
+    background-color: #ffffff;
+
+    border-top: 1px solid #dddddd;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 9999;
+
+}
+
+
+/* =========================================
+   NAVIGATION ITEM
+========================================= */
+
+.common-nav-item {
+
+    width: 140px;
+
+    height: 65px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 3px;
+
+    color: #555555;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    transition: all 0.2s ease;
+}
+
+
+/* =========================================
+   NAVIGATION HOVER
+========================================= */
+
+.common-nav-item:hover {
+
+    color: #2874f0;
+
+}
+
+
+/* =========================================
+   ACTIVE NAVIGATION
+========================================= */
+
+.common-nav-item.active {
+
+    color: #2874f0;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================
+   NAVIGATION ICON
+========================================= */
+
+.common-nav-icon {
+
+    font-size: 19px;
+
+    line-height: 20px;
+
+}
+
+
+/* =========================================
+   NAVIGATION TEXT
+========================================= */
+
+.common-nav-text {
+
+    font-size: 10px;
+
+    line-height: 14px;
+
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .common-nav-item {
+
+        width: 120px;
+
+    }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    body {
+
+        padding-bottom: 70px;
+
+    }
+
+
+    /* HEADER */
+
+    .common-header {
+
+        height: 55px;
+
+        padding: 0 15px;
+
+    }
+
+
+    .common-logo {
+
+        font-size: 19px;
+
+    }
+
+
+    /* BOTTOM NAV */
+
+    .common-bottom-nav {
+
+        height: 62px;
+
+    }
+
+
+    .common-nav-item {
+
+        width: 25%;
+
+        height: 62px;
+
+    }
+
+
+    .common-nav-icon {
+
+        font-size: 17px;
+
+    }
+
+
+    .common-nav-text {
+
+        font-size: 9px;
+
+    }
+
+}
+
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+
+    .common-logo {
+
+        font-size: 18px;
+
+    }
+
+
+    .common-nav-icon {
+
+        font-size: 16px;
+
+    }
+
+
+    .common-nav-text {
+
+        font-size: 8px;
+
+    }
+
+}

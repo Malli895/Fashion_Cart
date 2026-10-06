@@ -1,0 +1,209 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {{ product.product_name }} - Fashion Cart
+    </title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'css/product-details.css' %}">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="top-header">
+
+    <a href="{% url 'home' %}" class="common-logo">
+        Fashion Cart
+    </a>
+
+</header>
+
+
+
+<!-- ================= PRODUCT DETAILS ================= -->
+
+<main class="product-details-container">
+
+
+    <div class="product-card">
+
+
+        <!-- PRODUCT IMAGE -->
+
+        <div class="product-image-section">
+
+            {% if product.image %}
+
+                <img
+                    src="/media/{{ product.image }}"
+                    alt="{{ product.product_name }}"
+                    class="product-main-image"
+                >
+
+            {% else %}
+
+                <div class="image-not-found">
+                    Product Image Not Available
+                </div>
+
+            {% endif %}
+
+
+            <!-- HEART -->
+
+            <a
+                href="{% url 'add_to_wishlist' product.product_id %}"
+                class="wishlist-button"
+                title="Add to Wishlist"
+            >
+                ♡
+            </a>
+
+        </div>
+
+
+
+        <!-- PRODUCT INFORMATION -->
+
+        <div class="product-information">
+
+            <h1>
+                {{ product.product_name }}
+            </h1>
+
+
+            <div class="product-price">
+
+                ₹{{ product.price|floatformat:2 }}
+
+            </div>
+
+
+            {% if product.description %}
+
+                <p class="description">
+                    {{ product.description }}
+                </p>
+
+            {% endif %}
+
+
+            <div class="product-info">
+
+
+                {% if product.size %}
+
+                    <div class="info-row">
+
+                        <span>Size</span>
+
+                        <strong>
+                            {{ product.size }}
+                        </strong>
+
+                    </div>
+
+                {% endif %}
+
+
+                {% if product.color %}
+
+                    <div class="info-row">
+
+                        <span>Color</span>
+
+                        <strong>
+                            {{ product.color }}
+                        </strong>
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="info-row">
+
+                    <span>Availability</span>
+
+                    {% if product.stock_quantity > 0 %}
+
+                        <strong class="available">
+                            In Stock
+                        </strong>
+
+                    {% else %}
+
+                        <strong class="out-stock">
+                            Out of Stock
+                        </strong>
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ADD TO CART -->
+
+            {% if product.stock_quantity > 0 %}
+
+                <a
+                    href="{% url 'add_to_cart' product.product_id %}"
+                    class="add-cart-button"
+                >
+                    Add to Cart
+                </a>
+
+            {% else %}
+
+                <button
+                    class="add-cart-button disabled"
+                    disabled
+                >
+                    Out of Stock
+                </button>
+
+            {% endif %}
+
+
+            <!-- CONTINUE SHOPPING -->
+
+            <a
+                href="{% url 'products' %}"
+                class="continue-button"
+            >
+                Continue Shopping
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+{% include 'common.html' %}
+
+</body>
+
+</html>

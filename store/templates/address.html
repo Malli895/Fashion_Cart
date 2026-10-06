@@ -1,0 +1,233 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Delivery Address - Fashion Cart</title>
+
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/address.css' %}">
+</head>
+
+<body>
+
+<header class="top-header">
+    <a href="{% url 'home' %}" class="logo">
+        Fashion Cart
+    </a>
+</header>
+
+
+<main class="address-container">
+
+    <div class="page-heading">
+        <h1>Delivery Address</h1>
+        <p>Select your delivery address</p>
+    </div>
+
+
+    <!-- Saved Addresses -->
+
+    {% if saved_addresses %}
+
+    <section class="saved-section">
+
+        <h2>Saved Addresses</h2>
+
+        {% for saved in saved_addresses %}
+
+        <form method="POST" class="address-card">
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="selected_address"
+                value="{{ saved.address_id }}"
+            >
+
+            <div class="address-radio">
+                <input
+                    type="radio"
+                    name="selected"
+                    checked
+                >
+            </div>
+
+            <div class="address-information">
+
+                <h3>{{ saved.full_name }}</h3>
+
+                <p>
+                    {{ saved.address }}
+                </p>
+
+                <p>
+                    {{ saved.city }},
+                    {{ saved.state }} -
+                    {{ saved.pincode }}
+                </p>
+
+                <p class="phone">
+                    📞 {{ saved.phone }}
+                </p>
+
+            </div>
+
+            <button type="submit" class="select-button">
+                Deliver Here
+            </button>
+
+        </form>
+
+        {% endfor %}
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- Add New Address -->
+
+    <section class="new-address-section">
+
+        <h2>+ Add New Address</h2>
+
+        <form method="POST" class="address-form">
+
+            {% csrf_token %}
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Full Name</label>
+
+                    <input
+                        type="text"
+                        name="full_name"
+                        placeholder="Enter full name"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        placeholder="Enter phone number"
+                        maxlength="15"
+                        required
+                    >
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Address</label>
+
+                <textarea
+                    name="address"
+                    placeholder="House No, Street, Area"
+                    rows="4"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>City</label>
+
+                    <input
+                        type="text"
+                        name="city"
+                        placeholder="Enter city"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>State</label>
+
+                    <input
+                        type="text"
+                        name="state"
+                        placeholder="Enter state"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>Pincode</label>
+
+                    <input
+                        type="text"
+                        name="pincode"
+                        placeholder="Pincode"
+                        maxlength="10"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button type="submit" class="continue-button">
+                Continue to Payment
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<!-- Bottom Navigation -->
+
+<nav class="bottom-nav">
+
+    <a href="{% url 'home' %}" class="nav-item">
+        <span>🏠</span>
+        <small>Home</small>
+    </a>
+
+
+    <a href="{% url 'products' %}" class="nav-item">
+        <span>📂</span>
+        <small>Categories</small>
+    </a>
+
+
+    <a href="{% url 'cart' %}" class="nav-item">
+        <span>🛒</span>
+        <small>Cart</small>
+    </a>
+
+
+    <a href="{% url 'profile' %}" class="nav-item">
+        <span>👤</span>
+        <small>Account</small>
+    </a>
+
+</nav>
+{% include 'common.html' %}
+</body>
+</html>

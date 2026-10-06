@@ -1,0 +1,304 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Cart - Fashion Cart</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'css/cart.css' %}">
+
+</head>
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="top-header">
+
+    <a href="{% url 'home' %}" class="brand">
+        Fashion Cart
+    </a>
+
+</header>
+
+
+<!-- ================= MAIN CART ================= -->
+
+<main class="cart-container">
+
+
+    <!-- PAGE TITLE -->
+
+    <div class="cart-heading">
+
+        <h1>My Cart</h1>
+
+        <p>Review your selected products</p>
+
+    </div>
+
+
+    {% if cart_items %}
+
+
+    <div class="cart-layout">
+
+
+        <!-- ================= CART PRODUCTS ================= -->
+
+        <section class="cart-products">
+
+
+            {% for item in cart_items %}
+
+
+            <div class="cart-item">
+
+
+                <!-- PRODUCT IMAGE -->
+
+                <a
+                    href="{% url 'product_details' item.product.product_id %}"
+                    class="product-image"
+                >
+
+                    {% if item.product.image %}
+
+                        <img
+                            src="/media/{{ item.product.image }}"
+                            alt="{{ item.product.product_name }}"
+                        >
+
+                    {% else %}
+
+                        <div class="no-image">
+                            No Image
+                        </div>
+
+                    {% endif %}
+
+                </a>
+
+
+                <!-- PRODUCT DETAILS -->
+
+                <div class="product-details">
+
+
+                    <a
+                        href="{% url 'product_details' item.product.product_id %}"
+                        class="product-name"
+                    >
+                        {{ item.product.product_name }}
+                    </a>
+
+
+                    <div class="product-price">
+                        ₹{{ item.product.price|floatformat:2 }}
+                    </div>
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="quantity-section">
+
+                        <span class="quantity-label">
+                            Quantity
+                        </span>
+
+
+                        <div class="quantity-control">
+
+
+                            <a
+                                href="{% url 'decrease_quantity' item.cart_item_id %}"
+                                class="quantity-btn"
+                            >
+                                −
+                            </a>
+
+
+                            <span class="quantity-number">
+                                {{ item.quantity }}
+                            </span>
+
+
+                            <a
+                                href="{% url 'increase_quantity' item.cart_item_id %}"
+                                class="quantity-btn"
+                            >
+                                +
+                            </a>
+
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REMOVE -->
+
+                    <a
+                        href="{% url 'remove_from_cart' item.cart_item_id %}"
+                        class="remove-product"
+                    >
+                        Remove
+                    </a>
+
+
+                </div>
+
+
+                <!-- ITEM TOTAL -->
+
+                <div class="item-total">
+
+                    <span>Item Total</span>
+
+                    <strong>
+                        ₹{% widthratio item.product.price 1 item.quantity %}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </section>
+
+
+        <!-- ================= ORDER SUMMARY ================= -->
+
+        <aside class="order-summary">
+
+
+            <h2>Order Summary</h2>
+
+
+            <div class="summary-row">
+
+                <span>Total Items</span>
+
+                <strong>
+                    {{ cart_items|length }}
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>Subtotal</span>
+
+                <strong>
+                    ₹{{ total_amount|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>Delivery</span>
+
+                <strong class="free">
+                    FREE
+                </strong>
+
+            </div>
+
+
+            <div class="summary-line"></div>
+
+
+            <div class="total-row">
+
+                <span>Total Amount</span>
+
+                <strong>
+                    ₹{{ total_amount|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <!-- PROCEED -->
+
+            <a
+                href="{% url 'address' %}"
+                class="proceed-btn"
+            >
+                Proceed to Order
+            </a>
+
+
+            <!-- CONTINUE -->
+
+            <a
+                href="{% url 'products' %}"
+                class="continue-btn"
+            >
+                Continue Shopping
+            </a>
+
+
+        </aside>
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- ================= EMPTY CART ================= -->
+
+    <div class="empty-cart">
+
+
+        <div class="empty-icon">
+            🛒
+        </div>
+
+
+        <h2>Your Cart is Empty</h2>
+
+
+        <p>
+            You haven't added any products to your cart yet.
+        </p>
+
+
+        <a
+            href="{% url 'products' %}"
+            class="shop-btn"
+        >
+            Start Shopping
+        </a>
+
+
+    </div>
+
+
+    {% endif %}
+
+
+</main>
+
+
+{% include 'common.html' %}
+</body>
+</html>

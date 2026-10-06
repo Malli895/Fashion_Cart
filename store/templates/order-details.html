@@ -1,0 +1,386 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Order Details - Fashion Cart
+    </title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'css/order-details.css' %}">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="top-header">
+
+     <a href="{% url 'home' %}" class="common-logo">
+        Fashion Cart
+    </a>
+
+</header>
+
+
+
+<main class="order-details-container">
+
+
+    <!-- ================= TITLE ================= -->
+
+    <div class="page-heading">
+
+        <a href="{% url 'orders' %}"
+           class="back-link">
+
+            ← My Orders
+
+        </a>
+
+        <h1>
+            Order Details
+        </h1>
+
+    </div>
+
+
+
+    <!-- ================= ORDER HEADER ================= -->
+
+    <section class="details-card order-header">
+
+        <div>
+
+            <h2>
+                Order #{{ order.order_id }}
+            </h2>
+
+            <p>
+                Ordered on:
+                {{ order.order_date|date:"d M Y, h:i A" }}
+            </p>
+
+        </div>
+
+
+        <div class="order-status">
+
+            {% if order.order_status == "Confirmed" %}
+
+                <span class="confirmed">
+                    ✓ Confirmed
+                </span>
+
+            {% else %}
+
+                <span class="pending">
+                    ⏳ {{ order.order_status }}
+                </span>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= ORDER ITEMS ================= -->
+
+    <section class="details-card">
+
+        <h2>
+            📦 Ordered Items
+        </h2>
+
+
+        <div class="items-list">
+
+            {% for item in order_items %}
+
+            <div class="order-item">
+
+
+                <div class="item-image">
+
+                    {% if item.product.image %}
+
+                    <img
+                        src="/media/{{ item.product.image }}"
+                        alt="{{ item.product.product_name }}"
+                    >
+
+                    {% else %}
+
+                    <div class="no-image">
+                        No Image
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <div class="item-information">
+
+                    <h3>
+                        {{ item.product.product_name }}
+                    </h3>
+
+                    <p>
+                        Quantity:
+                        <strong>
+                            {{ item.quantity }}
+                        </strong>
+                    </p>
+
+                    <p>
+                        Price:
+                        <strong>
+                            ₹{{ item.price|floatformat:2 }}
+                        </strong>
+                    </p>
+
+                </div>
+
+
+
+                <div class="item-price">
+
+                    ₹{{ item.item_total|floatformat:2 }}
+
+                </div>
+
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= DELIVERY ADDRESS ================= -->
+
+    <section class="details-card">
+
+        <h2>
+            📍 Delivery Address
+        </h2>
+
+
+        <div class="delivery-box">
+
+            <h3>
+                {{ order.address.full_name }}
+            </h3>
+
+            <p>
+                {{ order.address.address }}
+            </p>
+
+            <p>
+                {{ order.address.city }},
+                {{ order.address.state }}
+                -
+                {{ order.address.pincode }}
+            </p>
+
+            <p>
+                📞 {{ order.address.phone }}
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= ORDER SUMMARY ================= -->
+
+    <section class="details-card">
+
+        <h2>
+            💰 Order Summary
+        </h2>
+
+
+        <div class="summary-row">
+
+            <span>
+                Order Total
+            </span>
+
+            <strong>
+                ₹{{ order.total_amount|floatformat:2 }}
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= PAYMENT ================= -->
+
+    <section class="details-card payment-section">
+
+        <h2>
+            💳 Payment
+        </h2>
+
+
+        {% if payment_obj %}
+
+
+            <div class="payment-information-box">
+
+                <div class="payment-row">
+
+                    <span>
+                        Payment Method
+                    </span>
+
+                    <strong>
+                        {{ payment_obj.payment_method }}
+                    </strong>
+
+                </div>
+
+
+                <div class="payment-row">
+
+                    <span>
+                        Payment Status
+                    </span>
+
+
+                    {% if payment_obj.payment_status == "Success" %}
+
+                        <strong class="success-status">
+
+                            ✓ Payment Successful
+
+                        </strong>
+
+                    {% else %}
+
+                        <strong class="pending-status">
+
+                            ⏳ Payment Pending
+
+                        </strong>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PAYMENT STILL PENDING -->
+
+            {% if payment_obj.payment_status != "Success" %}
+
+                <a
+                    href="{% url 'order_payment' order.order_id %}"
+                    class="proceed-payment-button"
+                >
+
+                    💳 Proceed to Payment
+
+                </a>
+
+            {% endif %}
+
+
+        {% else %}
+
+
+            <div class="payment-information-box">
+
+                <div class="payment-row">
+
+                    <span>
+                        Payment Status
+                    </span>
+
+                    <strong class="pending-status">
+
+                        ⏳ Payment Not Completed
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{% url 'order_payment' order.order_id %}"
+                class="proceed-payment-button"
+            >
+
+                💳 Proceed to Payment
+
+            </a>
+
+
+        {% endif %}
+
+    </section>
+
+
+
+    <!-- ================= ACTION BUTTONS ================= -->
+
+    <div class="order-actions">
+
+
+        <a
+            href="{% url 'orders' %}"
+            class="orders-button"
+        >
+
+            My Orders
+
+        </a>
+
+
+        <a
+            href="{% url 'products' %}"
+            class="shopping-button"
+        >
+
+            Continue Shopping
+
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+{% include 'common.html' %}
+
+</body>
+
+</html>

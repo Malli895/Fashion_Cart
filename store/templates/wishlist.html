@@ -1,0 +1,96 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Wishlist - Fashion Cart</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'css/wishlist.css' %}">
+
+</head>
+
+<body>
+
+<header>
+
+    <a href="{% url 'home' %}" class="common-logo">
+        Fashion Cart
+    </a>
+
+</header>
+
+
+<main>
+
+    <h2>❤️ My Wishlist</h2>
+
+    <div class="wishlist-grid">
+
+        {% for item in wishlist_items %}
+
+            <article class="wishlist-card">
+
+                <a href="{% url 'product_details' item.product.product_id %}">
+
+                    <img
+                        src="/media/{{ item.product.image }}"
+                        alt="{{ item.product.product_name }}"
+                    >
+
+                </a>
+
+                <h3>
+                    {{ item.product.product_name }}
+                </h3>
+
+                <p>
+                    ₹{{ item.product.price }}
+                </p>
+
+                <a href="{% url 'product_details' item.product.product_id %}">
+                    View Product
+                </a>
+
+                <a href="{% url 'remove_from_wishlist' item.wishlist_id %}">
+                    Remove
+                </a>
+
+            </article>
+
+        {% empty %}
+
+            <div class="empty-wishlist">
+
+                <h3>
+                    Your Wishlist is Empty
+                </h3>
+
+                <p>
+                    Add products you love to your wishlist.
+                </p>
+
+                <a href="{% url 'products' %}">
+                    Start Shopping
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</main>
+
+{% include 'common.html' %}
+
+</body>
+
+</html>

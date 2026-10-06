@@ -1,0 +1,253 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Fashion Cart</title>
+
+        <link rel="stylesheet"
+          href="{% static 'css/common.css' %}">
+
+    <link rel="stylesheet"
+          href="{% static 'css/dashboard.css' %}">
+
+</head>
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <a href="{% url 'home' %}" class="common-logo">
+        Fashion Cart
+    </a>
+    <form
+        method="GET"
+        action="{% url 'products' %}"
+        class="search-form"
+    >
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search T-Shirt, Shirt, Dress..."
+        >
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main>
+
+
+    <!-- WELCOME -->
+
+    <section class="hero">
+
+        <h2>
+            Welcome to Fashion Cart
+        </h2>
+
+        <p>
+            Fashion for Everyone
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         CATEGORIES
+    ========================= -->
+
+    <section class="category-section">
+
+        <h2>
+            Shop by Category
+        </h2>
+
+
+        <div class="category-grid">
+
+
+            <a
+                href="{% url 'products' %}?gender=Men"
+                class="category-card"
+            >
+
+                <div class="category-icon">
+                    👕
+                </div>
+
+                <h3>
+                    Men
+                </h3>
+
+                <p>
+                    Shirts, T-Shirts, Jeans
+                </p>
+
+            </a>
+
+
+            <a
+                href="{% url 'products' %}?gender=Women"
+                class="category-card"
+            >
+
+                <div class="category-icon">
+                    👗
+                </div>
+
+                <h3>
+                    Women
+                </h3>
+
+                <p>
+                    Dresses, Tops, Kurtis
+                </p>
+
+            </a>
+
+
+            <a
+                href="{% url 'products' %}?gender=Kids"
+                class="category-card"
+            >
+
+                <div class="category-icon">
+                    🧒
+                </div>
+
+                <h3>
+                    Kids
+                </h3>
+
+                <p>
+                    T-Shirts, Dresses
+                </p>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         PRODUCTS
+    ========================= -->
+
+    <section class="products-section">
+
+        <div class="section-heading">
+
+            <h2>
+                Featured Products
+            </h2>
+
+        </div>
+
+
+        <div class="product-grid">
+
+
+            {% for product in products %}
+
+                <article class="product-card">
+
+
+                    <!-- PRODUCT IMAGE -->
+
+                    <div class="product-image">
+
+                        <a
+                            href="{% url 'product_details' product.product_id %}"
+                        >
+
+                            {% if product.image %}
+
+                                <img
+                                    src="/media/{{ product.image }}"
+                                    alt="{{ product.product_name }}"
+                                >
+
+                            {% endif %}
+
+                        </a>
+
+
+                        <!-- HEART -->
+
+                        <a
+                            href="{% url 'add_to_wishlist' product.product_id %}"
+                            class="wishlist-heart"
+                            title="Add to Wishlist"
+                        >
+                            ♡
+                        </a>
+
+                    </div>
+
+
+                    <!-- PRODUCT NAME -->
+
+                    <div class="product-content">
+
+                        <h3>
+                            {{ product.product_name }}
+                        </h3>
+
+
+                        <a
+                            href="{% url 'product_details' product.product_id %}"
+                            class="view-product"
+                        >
+                            View Product
+                        </a>
+
+                    </div>
+
+
+                </article>
+
+            {% empty %}
+
+                <p>
+                    No products available.
+                </p>
+
+            {% endfor %}
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+{% include 'common.html' %}
+
+</body>
+</html>
